@@ -4,8 +4,7 @@ object camion {
 	const property cosas = []
 	var property peso = 1000
 	var property pesoMax = 2500
-	var property cargaActual = knightRider
-	
+	var totalBultos = 0
 	method cargar(unaCosa) {
 		cosas.add(unaCosa)
 	}
@@ -14,13 +13,13 @@ object camion {
 		cosas.remove(cosa)
 	}
 	method pesoTotal(){
-		return peso + cargaActual.peso()
+		return cosas.sum({carga => peso+= carga.peso()})
 	}
 	method excedidoDeCarga(){
 		return self.pesoTotal() > pesoMax
 	}
 	method objetosPeligrosos(nivel){
-		return cargaActual.peligrosidad() > nivel
+		return cosas.filter({carga => carga.nivelPeligrosidad() > nivel})
 	}
 	method objetosMasPeligrososQue(cosa){
 		cosas.filter({carga => carga.nivelPeligrosidad() > cosa.nivelPeligrosidad()})
@@ -29,6 +28,16 @@ object camion {
 		cosas.filter({carga => carga.nivelPeligrosidad() > nivelMaximoPeligrosidad}).isEmpty()
 	}
 	method cosaMasPesada(){
-		return cosas.max({cosa => cosa.peso()})
+		return cosas.max({carga => carga.peso()})
+	}
+	method tieneAlgoQuePesaEntre(min, max){
+		return not (cosas.filter({carga => carga.peso()>min && carga.peso()<max}).isEmpty())
+	}
+	method totalBultos(){
+		return cosas.sum({carga => totalBultos+= carga.cantidadDeBultos()})
+		
+	}
+	method pesos(){
+		
 	}
 }
