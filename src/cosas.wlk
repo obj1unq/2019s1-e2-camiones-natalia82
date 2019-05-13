@@ -2,6 +2,7 @@ object knightRider {
 	method peso() { return 500 }
 	method nivelPeligrosidad() { return 10 }
 	method cantidadDeBultos() { return 1}  
+	method cambioPorSerCargado() {}
 }
 
 object bumblebee {
@@ -11,6 +12,7 @@ object bumblebee {
 	method nivelPeligrosidad() { return if (transformadoEnAuto) { 15 } else { 30 }  }
 	method transformar() { transformadoEnAuto = not transformadoEnAuto }
 	method cantidadDeBultos() { return 2} 
+	method cambioPorSerCargado() { transformadoEnAuto = false}
 }
 
 object paqueteDeLadrillos{
@@ -20,8 +22,9 @@ object paqueteDeLadrillos{
 	method cantidadDeBultos() { if (cantidadLadrillos <100) { return 1}
 									else if (cantidadLadrillos < 301 && cantidadLadrillos > 101) {return 2}
 										else { return 3}
-		
+
 	}
+	method cambioPorSerCargado() {cantidadLadrillos += 12}
 	
 }
 
@@ -29,7 +32,7 @@ object arenaAGranel{
 	var property peso = 10
 	method nivelPeligrosidad() { return 1 }
 	method cantidadDeBultos() { return 1} 
-	
+	method cambioPorSerCargado() { peso += 20}
 }
 
 
@@ -46,13 +49,14 @@ object bateriaAntiaerea{
 	method cantidadDeBultos() { if (tieneMisiles) { return 2}
 									else { return 1}
 	} 
+	method cambioPorSerCargado() {tieneMisiles = true}
 	
 }
 	
 object contenedorPortuario{
 	const property contenedor = []
 	var cantidadBultos = 1
-	var sumaPesos = 0
+	
 		
 	method agregarAlContenedor(unaCosa){
 			contenedor.add(unaCosa)
@@ -62,18 +66,23 @@ object contenedorPortuario{
 		}
 	
 	method peso(){
-		return contenedor.sum({cosa=> sumaPesos += cosa.peso()}) + 100
+		return contenedor.sum({cosa=> cosa.peso()}) + 100
 	}
 	method  nivelPeligrosidad(){
 		return (contenedor.max({cosa => cosa.nivelDepeligrosidad()}).nivelDePeligrosidad())
 	}
     method cantidadDeBultos() { return contenedor.sum({cosa => cantidadBultos += cosa.cantidadDeBultos()}) }
+    method cambioPorSerCargado() {
+    	contenedor.foreach({cosas => cosas.cambioPorSerCargado()})
+    }
+
 }
 
 object residuosRadioactivos{
 	var property peso = 1
 	method  nivelPeligrosidad(){return 200}
 	method cantidadDeBultos() { return 1} 
+	method cambioPorSerCargado(){ peso += 20}
 }
 
 object embalajeDeSeguridad {
@@ -85,6 +94,7 @@ object embalajeDeSeguridad {
 		return  cosaEnvuelta.nivelPeligrosidad() / 2
 	}
 	method cantidadDeBultos() { return 2} 
+	method cambioPorSerCargado(){}
 }
 
 	

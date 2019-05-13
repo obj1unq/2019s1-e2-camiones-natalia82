@@ -1,0 +1,30 @@
+import cosas.*
+import camion.*
+
+test "reaccion de paquete de ladrillos al ser cargado" {
+	camion.cargar(paqueteDeLadrillos)
+	
+	assert.that(paqueteDeLadrillos.cantidadLadrillos() == 13)
+}
+
+test "cantidad de bultos de paquetes de ladrillos"{
+	
+	paqueteDeLadrillos.cantidadLadrillos(250)
+	
+	assert.that(paqueteDeLadrillos.cantidadDeBultos() == 2)
+}
+
+test " peso bateria antiaerea sin misil"{
+	bateriaAntiaerea.tieneMisiles (false)
+	assert.that(bateriaAntiaerea.peso() == 200)
+}
+
+test "peso del contenedor portuario con knightRider y areana a granel"{
+	contenedorPortuario.agregarAlContenedor(knightRider) 
+    contenedorPortuario.agregarAlContenedor(arenaAGranel)
+    
+    assert.that(contenedorPortuario.peso() == 610) 
+
+
+
+}

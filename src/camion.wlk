@@ -5,15 +5,17 @@ object camion {
 	var property peso = 1000
 	var property pesoMax = 2500
 	var totalBultos = 0
+	
 	method cargar(unaCosa) {
 		cosas.add(unaCosa)
+		unaCosa.cambioPorSerCargado()
 	}
 	
 	method descargar(cosa){
 		cosas.remove(cosa)
 	}
 	method pesoTotal(){
-		return cosas.sum({carga => peso+= carga.peso()})
+		return cosas.sum({carga =>  carga.peso()}) + peso
 	}
 	method excedidoDeCarga(){
 		return self.pesoTotal() > pesoMax
@@ -22,10 +24,10 @@ object camion {
 		return cosas.filter({carga => carga.nivelPeligrosidad() > nivel})
 	}
 	method objetosMasPeligrososQue(cosa){
-		cosas.filter({carga => carga.nivelPeligrosidad() > cosa.nivelPeligrosidad()})
+		return cosas.filter({carga => carga.nivelPeligrosidad() > cosa.nivelPeligrosidad()})
 	}
 	method puedeCircularEnRuta(nivelMaximoPeligrosidad){
-		cosas.filter({carga => carga.nivelPeligrosidad() > nivelMaximoPeligrosidad}).isEmpty()
+		return (cosas.filter({carga => carga.nivelPeligrosidad() > nivelMaximoPeligrosidad}).isEmpty())
 	}
 	method cosaMasPesada(){
 		return cosas.max({carga => carga.peso()})
@@ -38,6 +40,6 @@ object camion {
 		
 	}
 	method pesos(){
-		
+		return cosas.map({carga => carga.peso()})
 	}
 }
