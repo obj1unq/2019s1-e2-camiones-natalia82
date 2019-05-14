@@ -1,0 +1,20 @@
+import camion.*
+import cosas.*
+
+test "camion excedido de peso cargado con knightRider, bumblebee y un paquete de ladrillos" {
+	camion.cargar(knightRider)
+	camion.cargar(bumblebee)
+	paqueteDeLadrillos.cantidadLadrillos(650)
+	camion.cargar(paqueteDeLadrillos)
+
+	assert.that(camion.excedidoDeCarga())
+
+}
+
+test " El camion, cargado con arena a granel y bumblebee puede circular en ruta , cuando el nivel de peligrosidad permitido es 10"{
+	camion.cargar(arenaAGranel)
+	camion.cargar(bumblebee)
+	
+	assert.notThat(camion.puedeCircularEnRuta(10))
+	
+}
